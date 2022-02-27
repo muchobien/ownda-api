@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  accounts   Account[]
+  identities Identity[]
+}
+
+enum Provider {
+  APPLE
+  GOOGLE
+  LOCAL
+}
+
+model Identity {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  hash      String
+  provider  Provider
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Account {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  color     String
+  userId    String   @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+  transfers    Transaction[] @relation("Transfer")
+}
+
+model Category {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  parentId  String?  @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  parent       Category?     @relation("Parent", fields: [parentId], references: [id])
+  children     Category[]    @relation("Parent")
+  transactions Transaction[]
+}
+
+enum TransactionKind {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+model Transaction {
+  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  amount      Float
+  kind        TransactionKind
+  accountId   String          @db.Uuid
+  categoryId  String          @db.Uuid
+  toAccountId String?         @db.Uuid
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now())
+
+  account   Account  @relation(fields: [accountId], references: [id])
+  toAccount Account? @relation("Transfer", fields: [toAccountId], references: [id])
+  category  Category @relation(fields: [categoryId], references: [id])
+}
