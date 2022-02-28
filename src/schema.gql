@@ -50,10 +50,31 @@ type PageInfo {
   hasNextPage: Boolean!
 }
 
+type Account {
+  id: ID!
+  name: String!
+  color: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AccountEdge {
+  node: Account!
+  cursor: String!
+}
+
+type AccountConnection {
+  edges: [AccountEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
 type Query {
   me: User!
   category(id: ID!): Category!
   categories(after: String, first: Float, before: String, last: Float): CategoryConnection!
+  account(id: ID!): Account!
+  accounts(after: String, first: Float, before: String, last: Float): AccountConnection!
 }
 
 type Mutation {
@@ -61,6 +82,7 @@ type Mutation {
   login(input: AuthInput!): Authenticated!
   refreshToken: Credential!
   createCategory(input: CategoryInput!): Category!
+  createAccount(input: AccountInput!): Account!
 }
 
 input AuthInput {
@@ -78,4 +100,9 @@ enum Provider {
 input CategoryInput {
   name: String!
   parentId: String
+}
+
+input AccountInput {
+  name: String!
+  color: String!
 }
