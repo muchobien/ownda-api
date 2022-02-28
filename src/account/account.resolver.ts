@@ -37,11 +37,13 @@ export class AccountResolver {
 
   @Query(() => AccountConnection)
   async accounts(
+    @CurrentUser() user: User,
     @Info() resolveInfo: GraphQLResolveInfo,
     @Args({ type: () => ConnectionArgs }) connectionArgs: ConnectionArgs,
   ): Promise<AccountConnection> {
     return this.prisma.findManyCursorConnection(
-      (args) => this.prisma.account.findMany(args),
+      (args) =>
+        this.prisma.user.findUnique({ where: { id: user.id } }).accounts(args),
       () => this.prisma.account.count(),
       connectionArgs,
       { resolveInfo },
@@ -69,7 +71,7 @@ export class AccountResolver {
   ): Promise<TransactionConnection> {
     return this.prisma.findManyCursorConnection(
       (args) =>
-        this.prisma.transaction.findMany({ where: { accountId: id }, ...args }),
+        this.prisma.account.findUnique({ where: { id } }).transactions(args),
       () => this.prisma.transaction.count(),
       connectionArgs,
       { resolveInfo },

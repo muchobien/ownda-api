@@ -16,8 +16,7 @@ export class UserResolver {
     @Args({ type: () => ConnectionArgs }) connectionArgs: ConnectionArgs,
   ): Promise<AccountConnection> {
     return this.prisma.findManyCursorConnection(
-      (args) =>
-        this.prisma.account.findMany({ where: { userId: id }, ...args }),
+      (args) => this.prisma.user.findUnique({ where: { id } }).accounts(args),
       () => this.prisma.account.count(),
       connectionArgs,
       { resolveInfo },
