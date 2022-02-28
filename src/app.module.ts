@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './env.validation';
 import { CategoryModule } from './category/category.module';
 import { AccountModule } from './account/account.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AccountModule } from './account/account.module';
     AuthModule,
     CategoryModule,
     AccountModule,
+    TransactionModule,
   ],
   providers: [PrismaService],
 })

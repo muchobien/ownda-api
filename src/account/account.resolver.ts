@@ -1,17 +1,26 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Info, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Info,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import type { GraphQLResolveInfo } from 'graphql';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { GqlAuthGuard } from 'src/auth/gql.guard';
 import { ConnectionArgs } from 'src/common/connection.args';
 import { IdArgs } from 'src/common/id.args';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { TransactionConnection } from 'src/transaction/models/transaction.connection';
 import { User } from 'src/user/models/user.model';
 import { AccountInput } from './dto/account.input';
 import { AccountConnection } from './models/account.connection';
 import { Account } from './models/account.model';
 
-@Resolver()
+@Resolver(() => Account)
 @UseGuards(GqlAuthGuard)
 export class AccountResolver {
   constructor(private prisma: PrismaService) {}
@@ -50,5 +59,20 @@ export class AccountResolver {
         ...input,
       },
     });
+  }
+
+  @ResolveField('transactions', () => TransactionConnection)
+  async transactions(
+    @Parent() { id }: Account,
+    @Info() resolveInfo: GraphQLResolveInfo,
+    @Args({ type: () => ConnectionArgs }) connectionArgs: ConnectionArgs,
+  ): Promise<TransactionConnection> {
+    return this.prisma.findManyCursorConnection(
+      (args) =>
+        this.prisma.transaction.findMany({ where: { accountId: id }, ...args }),
+      () => this.prisma.transaction.count(),
+      connectionArgs,
+      { resolveInfo },
+    );
   }
 }

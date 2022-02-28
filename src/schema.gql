@@ -2,17 +2,45 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Account {
   id: ID!
-  email: String!
+  name: String!
+  color: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  transactions(after: String, first: Float, before: String, last: Float): TransactionConnection!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type AccountEdge {
+  node: Account!
+  cursor: String!
+}
+
+type AccountConnection {
+  edges: [AccountEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type User {
+  id: ID!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  accounts(after: String, first: Float, before: String, last: Float): AccountConnection!
+}
 
 type Credential {
   accessToken: String!
@@ -43,28 +71,30 @@ type CategoryConnection {
   totalCount: Float!
 }
 
-type PageInfo {
-  startCursor: String
-  endCursor: String
-  hasPreviousPage: Boolean!
-  hasNextPage: Boolean!
-}
-
-type Account {
+type Transaction {
   id: ID!
+  kind: TransactionKind!
   name: String!
-  color: String!
+  amount: Float!
+  categoryId: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  category: Category!
 }
 
-type AccountEdge {
-  node: Account!
+enum TransactionKind {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+type TransactionEdge {
+  node: Transaction!
   cursor: String!
 }
 
-type AccountConnection {
-  edges: [AccountEdge!]!
+type TransactionConnection {
+  edges: [TransactionEdge!]!
   pageInfo: PageInfo!
   totalCount: Float!
 }
@@ -75,6 +105,8 @@ type Query {
   categories(after: String, first: Float, before: String, last: Float): CategoryConnection!
   account(id: ID!): Account!
   accounts(after: String, first: Float, before: String, last: Float): AccountConnection!
+  transaction(id: ID!): Transaction!
+  transactions(after: String, first: Float, before: String, last: Float): TransactionConnection!
 }
 
 type Mutation {
@@ -83,6 +115,7 @@ type Mutation {
   refreshToken: Credential!
   createCategory(input: CategoryInput!): Category!
   createAccount(input: AccountInput!): Account!
+  createTransaction(input: TransactionInput!): Transaction!
 }
 
 input AuthInput {
@@ -105,4 +138,12 @@ input CategoryInput {
 input AccountInput {
   name: String!
   color: String!
+}
+
+input TransactionInput {
+  kind: TransactionKind!
+  name: String!
+  amount: Float!
+  accountId: String!
+  categoryId: String!
 }
