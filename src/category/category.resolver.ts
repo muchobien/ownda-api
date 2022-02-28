@@ -6,8 +6,11 @@ import { IdArgs } from 'src/common/id.args';
 import { CategoryInput } from './dto/category.input';
 import { CategoryConnection } from './models/category.connection';
 import type { GraphQLResolveInfo } from 'graphql';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/gql.guard';
 
 @Resolver()
+@UseGuards(GqlAuthGuard)
 export class CategoryResolver {
   constructor(private prisma: PrismaService) {}
 
