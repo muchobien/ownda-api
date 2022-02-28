@@ -56,9 +56,9 @@ export class TransactionResolver {
   }
 
   @ResolveField('category', () => Category)
-  async category(@Parent() { id }: Transaction): Promise<Category> {
+  async category(@Parent() { categoryId }: Transaction): Promise<Category> {
     return this.prisma.category.findUnique({
-      where: { id },
+      where: { id: categoryId },
       rejectOnNotFound: true,
     });
   }
