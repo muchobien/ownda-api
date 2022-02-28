@@ -25,14 +25,42 @@ type Authenticated {
   credential: Credential!
 }
 
+type Category {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CategoryEdge {
+  node: Category!
+  cursor: String!
+}
+
+type CategoryConnection {
+  edges: [CategoryEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Float!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
 type Query {
   me: User!
+  category(id: ID!): Category!
+  categories(after: String, first: Float, before: String, last: Float): CategoryConnection!
 }
 
 type Mutation {
   register(input: AuthInput!): Authenticated!
   login(input: AuthInput!): Authenticated!
   refreshToken: Credential!
+  createCategory(input: CategoryInput!): Category!
 }
 
 input AuthInput {
@@ -45,4 +73,9 @@ enum Provider {
   APPLE
   GOOGLE
   LOCAL
+}
+
+input CategoryInput {
+  name: String!
+  parentId: String
 }
