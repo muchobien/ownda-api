@@ -26,7 +26,6 @@ export class CategoryResolver {
     @Info() resolveInfo: GraphQLResolveInfo,
     @Args({ type: () => ConnectionArgs }) connectionArgs: ConnectionArgs,
   ): Promise<CategoryConnection> {
-    console.log(resolveInfo);
     return this.prisma.findManyCursorConnection(
       (args) => this.prisma.category.findMany(args),
       () => this.prisma.category.count(),
