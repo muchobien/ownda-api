@@ -763,10 +763,10 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-1.0.1.tgz#78b62041c7a407db4a90eb140567321602bed18e"
   integrity sha512-NFvofzSinp00j5rzUd4tf+xi9od6383iY0JP7o0Bnu1fuItAUkWBgc4EKuIQ3D+c2QI3i9pG1kDWAeY27EMGtg==
 
-"@nestjs/mercurius@10.0.5":
-  version "10.0.5"
-  resolved "https://registry.yarnpkg.com/@nestjs/mercurius/-/mercurius-10.0.5.tgz#547efc394e6798d088707883720a77dea1eb25ff"
-  integrity sha512-Dvbs36ogKreMOmRkXACG53rIcyqkrDTHrlZi2Zr5lmdk8PGu8Kh41EjkEQaXhOl9QQUeEHj0FWwFYJg3tNgRoQ==
+"@nestjs/mercurius@10.0.6":
+  version "10.0.6"
+  resolved "https://registry.yarnpkg.com/@nestjs/mercurius/-/mercurius-10.0.6.tgz#489496b01d7b422d305fb47e4f670b3f264e706e"
+  integrity sha512-OExVylYfcVrbs42Iq/Ub+KdorsXyijvW2pJcuKdfVMqBH2xIWWaKpwldkVFhCGXj+1YyKEKCjvlJqEbMaW6pGQ==
 
 "@nestjs/passport@8.2.1":
   version "8.2.1"
