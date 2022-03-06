@@ -10,6 +10,7 @@ import { validate } from './env.validation';
 import { CategoryModule } from './category/category.module';
 import { AccountModule } from './account/account.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { PlaidService } from './plaid/plaid.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { TransactionModule } from './transaction/transaction.module';
     AccountModule,
     TransactionModule,
   ],
-  providers: [PrismaService],
+  providers: [PrismaService, PlaidService],
 })
 export class AppModule {}

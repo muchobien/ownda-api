@@ -10,10 +10,15 @@ import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from './gql.guard';
 import { RefreshTokenHeader } from './refresh-token-header.decorator';
 import { Credential } from './models/credential.model';
+import { PlaidService } from 'src/plaid/plaid.service';
 
 @Resolver()
 export class AuthResolver {
-  constructor(private prisma: PrismaService, private auth: AuthService) {}
+  constructor(
+    private prisma: PrismaService,
+    private auth: AuthService,
+    private plaid: PlaidService,
+  ) {}
 
   @Mutation(() => Authenticated)
   async register(@Args('input') input: AuthInput): Promise<Authenticated> {
@@ -69,5 +74,31 @@ export class AuthResolver {
   @UseGuards(GqlAuthGuard)
   me(@CurrentUser() user: User) {
     return user;
+  }
+
+  @Mutation(() => Boolean, {
+    description:
+      'Exchange a public_token from [Plaid Link](https://plaid.com/docs/api/#creating-items-with-plaid-link) for a Plaid access_token',
+  })
+  @UseGuards(GqlAuthGuard)
+  async plaidLink(
+    @CurrentUser() user: User,
+    @Args('publicToken') publicToken: string,
+  ): Promise<boolean> {
+    const {
+      data: { access_token },
+    } = await this.plaid.itemPublicTokenExchange({
+      public_token: publicToken,
+    });
+
+    await this.prisma.identity.create({
+      data: {
+        userId: user.id,
+        provider: 'PLAID',
+        hash: access_token,
+      },
+    });
+
+    return true;
   }
 }

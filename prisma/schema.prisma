@@ -24,6 +24,7 @@ enum Provider {
   APPLE
   GOOGLE
   LOCAL
+  PLAID
 }
 
 model Identity {

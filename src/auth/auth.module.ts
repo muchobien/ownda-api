@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthResolver } from './auth.resolver';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { PlaidService } from 'src/plaid/plaid.service';
 
 @Module({
   imports: [
@@ -20,6 +21,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
       inject: [ConfigService],
     }),
   ],
-  providers: [PrismaService, AuthService, JwtStrategy, AuthResolver],
+  providers: [
+    PrismaService,
+    PlaidService,
+    AuthService,
+    JwtStrategy,
+    AuthResolver,
+  ],
 })
 export class AuthModule {}
