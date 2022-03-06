@@ -19,6 +19,12 @@ class EnvironmentVariables {
 
   @IsString()
   JWT_REFRESH_TOKEN_SECRET: string;
+
+  @IsString()
+  PLAID_CLIENT_ID: string;
+
+  @IsString()
+  PLAID_SECRET: string;
 }
 
 export function validate(config: Record<string, unknown>) {
