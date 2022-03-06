@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PlaidApi, Configuration, PlaidEnvironments } from 'plaid';
+import {
+  PlaidApi,
+  Configuration,
+  PlaidEnvironments,
+  LinkTokenCreateRequest,
+  CountryCode,
+  Products,
+} from 'plaid';
 
 @Injectable()
 export class PlaidService extends PlaidApi {
@@ -15,5 +22,22 @@ export class PlaidService extends PlaidApi {
       },
     });
     super(configuration);
+  }
+
+  createTokenLinkRequest(
+    id: string,
+    android_package_name?: string,
+  ): LinkTokenCreateRequest {
+    return {
+      client_name: 'ownda',
+      user: {
+        client_user_id: id,
+      },
+      products: [Products.Auth, Products.Transactions],
+      language: 'es',
+      country_codes: [CountryCode.Es],
+      redirect_uri: '',
+      android_package_name,
+    };
   }
 }

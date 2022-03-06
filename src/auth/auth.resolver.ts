@@ -11,6 +11,7 @@ import { GqlAuthGuard } from './gql.guard';
 import { RefreshTokenHeader } from './refresh-token-header.decorator';
 import { Credential } from './models/credential.model';
 import { PlaidService } from 'src/plaid/plaid.service';
+import { PlaidLinkArgs } from './dto/plaidLink.args';
 
 @Resolver()
 export class AuthResolver {
@@ -100,5 +101,18 @@ export class AuthResolver {
     });
 
     return true;
+  }
+
+  @Query(() => String)
+  @UseGuards(GqlAuthGuard)
+  async linkToken(
+    @CurrentUser() user: User,
+    @Args({ type: () => PlaidLinkArgs }) { packageName }: PlaidLinkArgs,
+  ): Promise<string> {
+    const { data } = await this.plaid.linkTokenCreate(
+      this.plaid.createTokenLinkRequest(user.id, packageName),
+    );
+
+    return data.link_token;
   }
 }
