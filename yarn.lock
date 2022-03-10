@@ -4199,10 +4199,10 @@ memfs@^3.4.1:
   dependencies:
     fs-monkey "1.0.3"
 
-mercurius@9.3.3:
-  version "9.3.3"
-  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-9.3.3.tgz#940c6563f909c23bff9ae30c872ffcc7b8568500"
-  integrity sha512-C6OFyu40MeEYrVCZItCliyWO4E4Xplprd0nv8jUTNPDozLKWQUHueXECEvhwH8XFYw0axdtxKAJVDaKkPZTOGg==
+mercurius@9.3.5:
+  version "9.3.5"
+  resolved "https://registry.yarnpkg.com/mercurius/-/mercurius-9.3.5.tgz#d7508960e844e1c16463bd126bac1739dc239432"
+  integrity sha512-qaIwXFzLZc/s/QCv91FGGbKbsq59GpTehknTto9Xgbv2F6kesI4U7pD3vUsIfD3br+oy7N77Nl8hV1e/hByd+g==
   dependencies:
     "@types/isomorphic-form-data" "^2.0.0"
     events.on "^1.0.1"
