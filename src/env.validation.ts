@@ -25,6 +25,9 @@ class EnvironmentVariables {
 
   @IsString()
   PLAID_SECRET: string;
+
+  @IsString()
+  PLAID_REDIRECT_URI: string;
 }
 
 export function validate(config: Record<string, unknown>) {

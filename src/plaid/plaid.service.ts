@@ -11,7 +11,7 @@ import {
 
 @Injectable()
 export class PlaidService extends PlaidApi {
-  constructor(configService: ConfigService) {
+  constructor(private configService: ConfigService) {
     const configuration = new Configuration({
       basePath: PlaidEnvironments.development,
       baseOptions: {
@@ -37,6 +37,9 @@ export class PlaidService extends PlaidApi {
       language: 'es',
       country_codes: [CountryCode.Es],
       android_package_name,
+      redirect_uri: android_package_name
+        ? undefined
+        : this.configService.get<string>('PLAID_REDIRECT_URI'),
     };
   }
 }
