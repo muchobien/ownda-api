@@ -6,7 +6,7 @@ import { Authenticated } from './models/authenticated.model';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/models/user.model';
 import { CurrentUser } from './current-user.decorator';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from './gql.guard';
 import { RefreshTokenHeader } from './refresh-token-header.decorator';
 import { Credential } from './models/credential.model';
@@ -15,6 +15,7 @@ import { PlaidLinkArgs } from './dto/plaidLink.args';
 
 @Resolver()
 export class AuthResolver {
+  private logger = new Logger(AuthResolver.name);
   constructor(
     private prisma: PrismaService,
     private auth: AuthService,

@@ -36,7 +36,6 @@ export class PlaidService extends PlaidApi {
       products: [Products.Auth, Products.Transactions],
       language: 'es',
       country_codes: [CountryCode.Es],
-      redirect_uri: '',
       android_package_name,
     };
   }
