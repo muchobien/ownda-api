@@ -11,4 +11,6 @@ export class Account implements AccountModel {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  @HideField()
+  plaidId: string | null;
 }

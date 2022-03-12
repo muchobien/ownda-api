@@ -19,4 +19,6 @@ export class Transaction implements TransactionModel {
   toAccountId: string | null;
   createdAt: Date;
   updatedAt: Date;
+  @HideField()
+  plaidId: string | null;
 }
