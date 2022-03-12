@@ -42,6 +42,7 @@ model Identity {
 
 model Account {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  plaidId   String? @unique
   name      String
   color     String
   userId    String   @db.Uuid
@@ -73,6 +74,7 @@ enum TransactionKind {
 
 model Transaction {
   id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  plaidId     String?         @unique
   name        String
   amount      Float
   kind        TransactionKind

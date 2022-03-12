@@ -103,6 +103,7 @@ type TransactionConnection {
 type Query {
   me: User!
   linkToken(packageName: String): String!
+  test: Boolean!
   category(id: ID!): Category!
   categories(after: String, first: Float, before: String, last: Float): CategoryConnection!
   account(id: ID!): Account!

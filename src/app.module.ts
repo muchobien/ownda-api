@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { AccountModule } from './account/account.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { PlaidService } from './plaid/plaid.service';
+import { WebhookModule } from './webhook/webhook.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { PlaidService } from './plaid/plaid.service';
     CategoryModule,
     AccountModule,
     TransactionModule,
+    WebhookModule,
   ],
   providers: [PrismaService, PlaidService],
 })
