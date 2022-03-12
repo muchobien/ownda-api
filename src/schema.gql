@@ -37,6 +37,7 @@ type PageInfo {
 type User {
   id: ID!
   email: String!
+  hasPlaidConnection: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
   accounts(after: String, first: Float, before: String, last: Float): AccountConnection!

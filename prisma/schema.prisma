@@ -36,6 +36,8 @@ model Identity {
   updatedAt DateTime @default(now()) @updatedAt
 
   user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, userId])
 }
 
 model Account {

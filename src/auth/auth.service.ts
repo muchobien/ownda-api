@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Credential } from './models/credential.model';
 import { AuthInput } from './dto/auth.input';
+import { User } from 'src/user/models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +25,9 @@ export class AuthService {
       include: {
         identities: {
           where: {
-            provider,
+            provider: {
+              in: [provider, 'PLAID'],
+            },
           },
         },
       },
@@ -36,7 +38,14 @@ export class AuthService {
     const { identities, ...user } = result;
     if (provider === 'LOCAL') {
       const isValid = await bcrypt.compare(hash, identities[0].hash);
-      return isValid ? user : null;
+      return isValid
+        ? {
+            ...user,
+            hasPlaidConnection: !!identities.find(
+              (identity) => identity.provider === 'PLAID',
+            ),
+          }
+        : null;
     }
 
     return null;

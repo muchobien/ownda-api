@@ -44,7 +44,10 @@ export class AuthResolver {
     const credential = await this.auth.generateTokens(user.id);
 
     return {
-      user,
+      user: {
+        ...user,
+        hasPlaidConnection: false,
+      },
       credential,
     };
   }
@@ -93,8 +96,17 @@ export class AuthResolver {
       public_token: publicToken,
     });
 
-    await this.prisma.identity.create({
-      data: {
+    await this.prisma.identity.upsert({
+      where: {
+        provider_userId: {
+          provider: 'PLAID',
+          userId: user.id,
+        },
+      },
+      update: {
+        hash: access_token,
+      },
+      create: {
         userId: user.id,
         provider: 'PLAID',
         hash: access_token,
