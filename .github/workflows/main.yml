@@ -56,7 +56,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Update image tag
-        uses: fjogeleit/yaml-update-action@main
+        uses: krosf/yaml-update-action@main
         with:
           createPR: true
           commitChange: true
@@ -67,3 +67,6 @@ jobs:
           branch: deploy/${{ steps.short.outputs.sha }}
           message: 'chore(ci): deploy ${{ steps.short.outputs.sha }}'
           value: 'ghcr.io/muchobien/ownda-api:${{ steps.short.outputs.sha }}'
+          commitUserName: ${{ secrets.BOT_USER }}
+          commitUserEmail: ${{ secrets.BOT_EMAIL }}
+          token: ${{ secrets.GHB }}
