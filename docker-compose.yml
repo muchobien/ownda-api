@@ -1,0 +1,26 @@
+version: "3.7"
+
+networks:
+  traefik0:
+    external: true
+
+services:
+  ownda:
+    image: ghcr.io/muchobien/ownda-api:edge
+    container_name: ownda
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET}
+      JWT_ACCESS_TOKEN_SECRET: ${JWT_ACCESS_TOKEN_SECRET}
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      PLAID_CLIENT_ID: ${PLAID_CLIENT_ID}
+      PLAID_SECRET: ${PLAID_SECRET}
+      PLAID_REDIRECT_URI: ${PLAID_REDIRECT_URI}
+    networks:
+      - traefik0
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.ownda.entrypoints: websecure
+      traefik.http.services.ownda.loadbalancer.server.port: ${PORT}
