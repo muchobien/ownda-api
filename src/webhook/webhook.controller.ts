@@ -6,7 +6,7 @@ export class WebhookController {
 
   @Post('plaid')
   plaid(@Body() body: Record<string, unknown>, @Request() req: any) {
-    this.logger.log(req);
+    this.logger.log(req.headers);
     this.logger.verbose(body);
   }
 }
