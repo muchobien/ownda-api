@@ -11,26 +11,21 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      # GitHub Actions do not automatically checkout your projects. If you need the code
-      # you need to check it out.
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Prepare
-        id: prep
-        run: |
-          DOCKER_IMAGE=ghcr.io/muchobien/ownda-api
-          VERSION=edge
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
-          fi
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            VERSION=nightly
-          fi
-          TAGS="${DOCKER_IMAGE}:${VERSION}"
-          if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:latest"
-          fi
-          echo ::set-output name=tags::${TAGS}
+      
+      - name: Docker Metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ghcr.io/muchobien/ownda-api
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=,suffix=,format=short
+            type=edge,branch=main
+      
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -51,6 +46,21 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Get tags
+        run: echo "Tags ${{ fromJSON(steps.meta.outputs.json) }}"
+
+      # - name: Update image tag
+      #   uses: fjogeleit/yaml-update-action@main
+      #   with:
+      #     valueFile: docker-compose.yml
+      #     propertyPath: services.ownda.image
+      #     value: ${{ fromJSON(steps.meta.outputs.json) }}
+      #     branch: deploy/${{ steps.image.outputs.version }}
+      #     targetBranch: development
+      #     createPR: true
+      #     message: 'Update Image Version to ${{ steps.image.outputs.version }}' 
