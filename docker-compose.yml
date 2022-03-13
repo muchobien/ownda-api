@@ -1,12 +1,10 @@
-version: "3.7"
-
+version: '3.7'
 networks:
   traefik0:
     external: true
-
 services:
   ownda:
-    image: ghcr.io/muchobien/ownda-api:edge
+    image: ghcr.io/muchobien/ownda-api:26b900a
     container_name: ownda
     restart: unless-stopped
     environment:
@@ -21,6 +19,6 @@ services:
     networks:
       - traefik0
     labels:
-      traefik.enable: "true"
+      traefik.enable: 'true'
       traefik.http.routers.ownda.entrypoints: websecure
       traefik.http.services.ownda.loadbalancer.server.port: ${PORT}
