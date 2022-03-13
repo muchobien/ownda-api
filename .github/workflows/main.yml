@@ -26,6 +26,10 @@ jobs:
             type=sha,prefix=,suffix=,format=short
             type=edge,branch=main
       
+      - name: Get short SHA
+        uses: benjlevesque/short-sha@v1.2
+        id: short
+      
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -51,16 +55,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Get tags
-        run: echo "Tags ${{ fromJSON(steps.meta.outputs.json) }}"
-
-      # - name: Update image tag
-      #   uses: fjogeleit/yaml-update-action@main
-      #   with:
-      #     valueFile: docker-compose.yml
-      #     propertyPath: services.ownda.image
-      #     value: ${{ fromJSON(steps.meta.outputs.json) }}
-      #     branch: deploy/${{ steps.image.outputs.version }}
-      #     targetBranch: development
-      #     createPR: true
-      #     message: 'Update Image Version to ${{ steps.image.outputs.version }}' 
+      - name: Update image tag
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          createPR: true
+          commitChange: true
+          targetBranch: main
+          masterBranchName: main
+          valueFile: docker-compose.yml
+          propertyPath: services.ownda.image
+          branch: deploy/${{ steps.short.outputs.sha }}
+          message: 'chore(ci): deploy ${{ steps.short.outputs.sha }}'
+          value: 'ghcr.io/muchobien/ownda-api:${{ steps.short.outputs.sha }}'
