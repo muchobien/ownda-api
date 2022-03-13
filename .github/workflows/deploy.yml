@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    types:
+      - labeled
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if:  startsWith(github.head_ref, 'deploy/')
+    steps:
+      - name: Enable auto-merge for Deploy PRs
+        run: gh pr merge --auto --merge --subject [skip ci] "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
