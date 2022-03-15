@@ -737,12 +737,12 @@
   resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-8.2.1.tgz#a2abff9f51b3857b3423f5380a00f475aa298fe7"
   integrity sha512-HXEKMLX1x865+lsJB4srwKHBciDNAhWY1Ha+xbxYRbk7J5leGDoHJAmeqe+Wb3NDn5nkboggLV87t0q2mbYc8w==
 
-"@nestjs/platform-fastify@8.4.0":
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-8.4.0.tgz#90b7281c8cb9bd14e0ceac8de4fb4dfa6fac5bfb"
-  integrity sha512-npSXuCgI9Nnc8icU9Mg+uEwqoBoyUl/9FnV5XpP0d6tZBUoDySA6dbJZy5xpjeB9HJap2L/6yBpsTeEvvtojAg==
+"@nestjs/platform-fastify@8.4.1":
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-fastify/-/platform-fastify-8.4.1.tgz#352b5d380141528f5d53b6e9ba9015b657089ffe"
+  integrity sha512-m97X7Roar1txPePpkW9XENgxFrmHQXgAMrUu0nZxvH/KKf+CcHzav1UfY7gzr88+OvSCDeDo9UMDvj2rZT2SSw==
   dependencies:
-    fastify "3.27.2"
+    fastify "3.27.4"
     fastify-cors "6.0.3"
     fastify-formbody "5.2.0"
     light-my-request "4.8.0"
@@ -2655,10 +2655,10 @@ fastify-websocket@^4.0.0:
     fastify-plugin "^3.0.0"
     ws "^8.0.0"
 
-fastify@3.27.2:
-  version "3.27.2"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.27.2.tgz#61fd226dd72b2d8b6b82e6bf71c18e495026545d"
-  integrity sha512-InZSbbfdBV8yfsTzX0Ei7aF3r7FjC+DPIf27IlTP5EIhSsvTjvlRNwxDPYYGi2NX2K654Vh+zCGCy/GaSigIuw==
+fastify@3.27.4:
+  version "3.27.4"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.27.4.tgz#67ffd61b5bea74768a7de28dbef5b6bc58f9e953"
+  integrity sha512-SOfnHBxG9zxCSIvt6aHoR/cao8QBddWmGP/mb5KQKRc+KI1kB7b79M2hCDOTSyHdLAF2OX+oI6X3weeLc+MqKg==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     abstract-logging "^2.0.0"
