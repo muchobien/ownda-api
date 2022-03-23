@@ -4,7 +4,7 @@ networks:
     external: true
 services:
   ownda:
-    image: ghcr.io/muchobien/ownda-api:da75de2
+    image: ghcr.io/muchobien/ownda-api:995f2a7
     container_name: ownda
     restart: unless-stopped
     environment:
